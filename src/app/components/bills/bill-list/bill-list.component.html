@@ -1,0 +1,25 @@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Bill Name</th>
+            <th>Bill Desciption</th>
+            <th>Paid</th>
+            <th>Bill Code</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- <app-bill-item *ngFor="let billItem of bills" [bill]="billItem"></app-bill-item> -->
+        
+        <tr *ngFor="let billItem of bills">
+            <td>{{billItem.billName}}</td>
+            <td>{{billItem.billDesc}}</td>
+            <td>{{billItem.paid}}</td>
+            <td>{{billItem.billCode}}</td>
+        </tr>
+
+        <!-- <tr *ngFor="let billItem of bills">
+            <app-bill-item [bill]="billItem"></app-bill-item>
+        </tr> -->
+    </tbody>
+</table>
+

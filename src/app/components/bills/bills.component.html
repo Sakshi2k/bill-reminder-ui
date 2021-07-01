@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="container-fluid row" style="margin-top: 5rem;">
+        <div class="col-md-8">
+            <div class="row">
+                <h3>Pay bills on time!</h3>
+                <h3 class="lead">Simplify, Work smarter and faster.</h3>
+                    
+                <ul class="nav nav-pills">
+                    <li role="presentation" class="active"><a href='/'>All</a></li>
+                    <li role="presentation"><a href=''>Pay Due</a></li>
+                    <li role="presentation"><a href=''>Paid</a></li>
+                </ul>
+            </div>
+            <br/>
+            
+            <div class="row">
+                <app-bill-list></app-bill-list>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div style="border: 1px solid rgb(174, 169, 169); margin: 20pt;" class="container-fluid">
+                <h4>New Bill</h4>
+                <br/>
+                <!-- <form action=""> -->
+                    <input type="text" class="form-control" placeholder="Bill Name" />
+                    <br/>
+                    <input type="text" class="form-control" placeholder="Bill Desc" />
+                    <br/>
+                    <!-- <input type="date" class="form-control" placeholder="Due Date" />
+                    <br/> -->
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <br/><br/>
+                <!-- </form> -->
+            </div>
+        </div>
+
+    </div>
+
+</div>
