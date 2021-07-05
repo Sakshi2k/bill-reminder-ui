@@ -1,12 +1,26 @@
+<div class="row">
+    <h3>Pay bills on time!</h3>
+    <h3 class="lead">Simplify, Work smarter and faster.</h3>
+        
+    <ul class="nav nav-pills">
+        <li role="presentation"><a (click)=displayAllBills()>All</a></li>
+        <li role="presentation"><a (click)="filterBillsByPaid()">Paid</a></li>
+        <li role="presentation"><a (click)="filterBillsByPastDue()">Past Due</a></li>
+        <li role="presentation"><a (click)="filterBillsByDue()">All Due</a></li>
+    </ul>
+</div>
+<br/>
+<div class="row">
+    
 <table class="table table-bordered">
     <thead>
         <tr>
             <td>Type</td>
             <th>Bill Name</th>
             <th>Bill Desciption</th>
-            <th>Due Status</th>
+            <th>Due Date</th>
             <th>Paid</th>
-            <th style>Bill Code</th>
+            <th>Bill Code</th>
             <th>Past Due</th>
         </tr>
     </thead>
@@ -16,19 +30,25 @@
             (deleteRequest)="deleting($event)">
         </app-bill-item> -->
         
-        <tr *ngFor="let billItem of bills">
-            <td>
-                <app-bill-icon [imgType]="billItem.billType"></app-bill-icon>
-                
-            </td>
+        <tr *ngFor="let billItem of displayBills">
+            <td><app-bill-icon [imgType]="billItem.billType"></app-bill-icon></td>
             <td>{{billItem.billName}}</td>
             <td>{{billItem.billDesc}}</td>
             <td>{{billItem.dueDate}}</td>
-            <td>{{billItem.paid}}</td>
-            <td>{{billItem.billCode.substring(0, 8)}}..</td>
-            <td *ngIf="billItem.pastDue; else elseBlock" class="text-red">!</td>
-                <ng-template #elseBlock> <td></td> </ng-template>
+
+            <td *ngIf="billItem.paid; else elseBlock1">
+                <img class="small-icon" src="assets/images/tick.png">
+            </td>
+                <ng-template #elseBlock1> 
+                    <td><img class="small-icon" src="assets/images/cross.png"></td>
+               </ng-template>
+            
+            <td>{{billItem.billCode.substring(0,7)}}..</td>
+            <td *ngIf="billItem.pastDue; else elseBlock2" class="text-red">!</td>
+                <ng-template #elseBlock2><td></td></ng-template>
         </tr>
     </tbody>
 </table>
 
+
+</div>

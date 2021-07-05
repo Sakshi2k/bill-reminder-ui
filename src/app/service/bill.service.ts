@@ -9,6 +9,8 @@ import { Bill } from '../components/bills/bill.model';
 })
 export class BillService {
 
+  public bills: Bill[] =[];
+
   private apiServerUrl = environment.apiBaseServerURL;
 
   constructor(private http: HttpClient) { }
