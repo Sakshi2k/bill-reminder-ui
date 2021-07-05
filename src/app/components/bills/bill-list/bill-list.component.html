@@ -1,25 +1,34 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <td>Type</td>
             <th>Bill Name</th>
             <th>Bill Desciption</th>
+            <th>Due Status</th>
             <th>Paid</th>
-            <th>Bill Code</th>
+            <th style>Bill Code</th>
+            <th>Past Due</th>
         </tr>
     </thead>
     <tbody>
-        <!-- <app-bill-item *ngFor="let billItem of bills" [bill]="billItem"></app-bill-item> -->
+        <!-- <app-bill-item *ngFor="let billItem of bills" 
+            [bill]="billItem" 
+            (deleteRequest)="deleting($event)">
+        </app-bill-item> -->
         
         <tr *ngFor="let billItem of bills">
+            <td>
+                <app-bill-icon [imgType]="billItem.billType"></app-bill-icon>
+                
+            </td>
             <td>{{billItem.billName}}</td>
             <td>{{billItem.billDesc}}</td>
+            <td>{{billItem.dueDate}}</td>
             <td>{{billItem.paid}}</td>
-            <td>{{billItem.billCode}}</td>
+            <td>{{billItem.billCode.substring(0, 8)}}..</td>
+            <td *ngIf="billItem.pastDue; else elseBlock" class="text-red">!</td>
+                <ng-template #elseBlock> <td></td> </ng-template>
         </tr>
-
-        <!-- <tr *ngFor="let billItem of bills">
-            <app-bill-item [bill]="billItem"></app-bill-item>
-        </tr> -->
     </tbody>
 </table>
 

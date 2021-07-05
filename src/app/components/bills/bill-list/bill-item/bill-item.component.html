@@ -1,6 +1,6 @@
-<!-- <tr>
-    <td>{{bill.billName}}</td>
-    <td>Bill Desciption</td>
-    <td>Paid</td>
-    <td>Bill Code</td>
-</tr> -->
+<tr (click)="onDelete()">
+    <td>{{bill?.billName}}</td>
+    <td>{{bill?.billDesc}}</td>
+    <td>{{bill?.paid}}</td>
+    <td>{{bill?.billCode}}</td>
+</tr>

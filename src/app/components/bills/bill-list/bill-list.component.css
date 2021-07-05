@@ -1,0 +1,7 @@
+.text-red {
+    color: red;
+    text-align: center;
+    width: max-content;
+    font-weight: 900;
+    font-size: large;
+}

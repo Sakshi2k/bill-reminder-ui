@@ -7,6 +7,8 @@ import { BillsComponent } from './components/bills/bills.component';
 import { BillListComponent } from './components/bills/bill-list/bill-list.component';
 import { BillItemComponent } from './components/bills/bill-list/bill-item/bill-item.component';
 import { HeaderComponent } from './components/header/header.component';
+import { HttpClientModule } from '@angular/common/http';
+import { BillIconComponent } from './components/bills/bill-list/bill-icon/bill-icon.component';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,13 @@ import { HeaderComponent } from './components/header/header.component';
     HeaderComponent,
     BillsComponent,
     BillListComponent,
-    BillItemComponent
+    BillItemComponent,
+    BillIconComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

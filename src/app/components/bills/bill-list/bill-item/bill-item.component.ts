@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Bill } from '../../bill.model';
 
 @Component({
@@ -10,12 +10,17 @@ export class BillItemComponent implements OnInit {
 
   // billName, billCode, paid, billDesc
   @Input() bill?:Bill;
+  @Output() deleteRequest = new EventEmitter<Bill>();
 
   constructor() { 
   }
 
   ngOnInit(): void {
-    console.log(this.bill);
+    // console.log("Bill"+ this.bill);
+  }
+
+  onDelete() {
+    this.deleteRequest.emit(this.bill);
   }
 
 }
