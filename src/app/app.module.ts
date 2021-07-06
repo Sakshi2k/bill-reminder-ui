@@ -9,6 +9,8 @@ import { BillItemComponent } from './components/bills/bill-list/bill-item/bill-i
 import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BillIconComponent } from './components/bills/bill-list/bill-icon/bill-icon.component';
+import { BillModalComponent } from './components/bills/bill-list/bill-modal/bill-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,12 +19,14 @@ import { BillIconComponent } from './components/bills/bill-list/bill-icon/bill-i
     BillsComponent,
     BillListComponent,
     BillItemComponent,
-    BillIconComponent
+    BillIconComponent,
+    BillModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { Bill } from './bill.model';
 
 @Component({
   selector: 'app-bills',
@@ -11,5 +12,4 @@ export class BillsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

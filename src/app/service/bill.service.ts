@@ -9,25 +9,28 @@ import { Bill } from '../components/bills/bill.model';
 })
 export class BillService {
 
-  public bills: Bill[] =[];
-
   private apiServerUrl = environment.apiBaseServerURL;
 
   constructor(private http: HttpClient) { }
 
   public getBills(): Observable<Bill[]> {
-    return this.http.get<Bill[]>(`${this.apiServerUrl}/bill/all`);
+    return this.http.get<Bill[]>(`${this.apiServerUrl}/bill/all`);;
   }
-
+  
   public getBillById(billId : number): Observable<Bill> {
     return this.http.get<Bill>(`${this.apiServerUrl}/bill/find/${billId}`);
   }
-
+  
   public addBill(bill : Bill): Observable<Bill> {
+    console.log("--------***------")
+    console.log("adding a new bill");
+    console.log("Bill : " + bill);
     return this.http.post<Bill>(`${this.apiServerUrl}/bill/add`, bill);
   }
-
+  
   public updateBill(bill : Bill): Observable<Bill> {
+    console.log("adding a new bill");
+    console.log("Bill : " + bill);
     return this.http.put<Bill>(`${this.apiServerUrl}/bill/update`, bill);
   }
 

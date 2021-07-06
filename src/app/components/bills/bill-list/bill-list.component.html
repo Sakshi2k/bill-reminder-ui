@@ -1,54 +1,220 @@
 <div class="row">
-    <h3>Pay bills on time!</h3>
-    <h3 class="lead">Simplify, Work smarter and faster.</h3>
-        
-    <ul class="nav nav-pills">
-        <li role="presentation"><a (click)=displayAllBills()>All</a></li>
-        <li role="presentation"><a (click)="filterBillsByPaid()">Paid</a></li>
-        <li role="presentation"><a (click)="filterBillsByPastDue()">Past Due</a></li>
-        <li role="presentation"><a (click)="filterBillsByDue()">All Due</a></li>
-    </ul>
+    <!-- Notification for no bills -->
+    <div *ngIf="displayBills?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+        <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">No Bills are found!</h4>
+        <p>Go ahead and create a new one.</p>
+        </div>
+    </div>
+
+    <div class="col-lg-7" style="padding: 0;"> 
+        <ul class="nav nav-pills" style="float:inline">
+            <li role="presentation"><a class="btn btn-border" (click)=displayAllBills()>All</a></li>
+            <li role="presentation"><a class="btn btn-border" (click)="filterBillsByPaid()">Paid</a></li>
+            <li role="presentation"><a class="btn btn-border" (click)="filterBillsByPastDue()">Past Due</a></li>
+            <li role="presentation"><a class="btn btn-border" (click)="filterBillsByDue()">All Due</a></li>
+        </ul>
+    </div>
+
+    <div class="col-lg-5">
+        <form class="form-inline">
+            <button class="btn btn-primary" (click)="openModal(undefined, 'add')">New Bill</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
 </div>
 <br/>
-<div class="row">
-    
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <td>Type</td>
-            <th>Bill Name</th>
-            <th>Bill Desciption</th>
-            <th>Due Date</th>
-            <th>Paid</th>
-            <th>Bill Code</th>
-            <th>Past Due</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- <app-bill-item *ngFor="let billItem of bills" 
-            [bill]="billItem" 
-            (deleteRequest)="deleting($event)">
-        </app-bill-item> -->
-        
-        <tr *ngFor="let billItem of displayBills">
-            <td><app-bill-icon [imgType]="billItem.billType"></app-bill-icon></td>
-            <td>{{billItem.billName}}</td>
-            <td>{{billItem.billDesc}}</td>
-            <td>{{billItem.dueDate}}</td>
 
-            <td *ngIf="billItem.paid; else elseBlock1">
-                <img class="small-icon" src="assets/images/tick.png">
-            </td>
-                <ng-template #elseBlock1> 
-                    <td><img class="small-icon" src="assets/images/cross.png"></td>
-               </ng-template>
+<div class="row">    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Type</td>
+                <th>Bill Name</th>
+                <th>Amount</th>
+                <th>Bill Desciption</th>
+                <th>Due Date</th>
+                <th>Paid</th>
+                <th>Bill Code</th>
+                <th>Past Due</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <app-bill-item *ngFor="let billItem of bills" 
+                [bill]="billItem" 
+                (deleteRequest)="deleting($event)">
+            </app-bill-item> -->
             
-            <td>{{billItem.billCode.substring(0,7)}}..</td>
-            <td *ngIf="billItem.pastDue; else elseBlock2" class="text-red">!</td>
-                <ng-template #elseBlock2><td></td></ng-template>
-        </tr>
-    </tbody>
-</table>
+            <tr *ngFor="let billItem of displayBills">
+                <td><app-bill-icon [imgType]="billItem.billType"></app-bill-icon></td>
+                <td>{{billItem.billName}}</td>
+                <td>{{billItem.amount}}</td>
+                <td>{{billItem.billDesc}}</td>
+                <td>{{billItem.dueDate}}</td>
+
+                <td *ngIf="billItem.paid; else elseBlock1">
+                    <img class="small-icon" src="assets/images/tick.png">
+                </td>
+                    <ng-template #elseBlock1> 
+                        <td><img class="small-icon" src="assets/images/cross.png"></td>
+                    </ng-template>
+                
+                <td>{{billItem.billCode.substring(0,9)}}..</td>
+
+                <td *ngIf="billItem.pastDue; else elseBlock2" class="text-red">!</td>
+                    <ng-template #elseBlock2><td></td></ng-template>
+                <td><a><img class="small-icon" (click)="openModal(billItem, 'edit')" src="assets/images/edit.png"></a></td>
+                <td><a><img class="small-icon" (click)="openModal(billItem, 'delete')" src="assets/images/delete.png"></a></td>
+            </tr>
+        </tbody>
+    </table>
 
 
+
+    <div class="modalsDiv" id="modalsDiv">
+        <!-- <app-bill-modal></app-bill-modal> -->
+        
+        <!-- Add new bill modal -->
+        <div class="modal fade" id="addBillModal" tabindex="-1" role="dialog" aria-labelledby="addBillModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="addBillModalLabel">New Bill</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <form #addForm="ngForm" (ngSubmit)="onAddBill(addForm)">
+                            <div class="form-group">
+                                <label for="billName">Bill Name</label>
+                                <input type="text" ngModel name="billName" class="form-control" id="name" placeholder="Bill Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="billDesc">Bill Desc</label>
+                                <input type="text" ngModel name="billDesc" class="form-control" id="desc" placeholder="Bill Desc" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <input type="text" ngModel name="amount" class="form-control" id="amount" placeholder="e.g. 1000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dueDate">Due Date</label>
+                                <input type="text" ngModel name="dueDate" class="form-control" id="dueDate" placeholder="dd/mm/yyyy" required>
+                            </div>
+                            <label for="billType">Bill Type</label>
+                            <select id="type" ngModel name="billType" class="form-control" required>
+                                <option value="electricity">Electricity</option>
+                                <option value="water">Water</option>
+                                <option value="gas">Cylinder</option>
+                                <option value="other">Others</option>
+                            </select>
+                            
+                            <label for="paid">Paid</label>
+                            <select id="type" ngModel name="paid" class="form-control" required value="false">
+                                <option value=true>Paid</option>
+                                <option value=false>Due</option>
+                            </select>
+
+                            <input type="hidden" name="id" id="id" placeholder="Email"/>
+                            <input type="hidden" name="userCode" id="userCode" placeholder="Email"/>
+                            <br/>
+                            <div class="modal-footer">
+                                <button type="button" id="add-bill-form-close" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                                <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary" >Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <!-- Edit bill modal -->
+        <div class="modal fade" id="editBillModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Bill</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bill Code : {{editBill?.billCode}}</p>
+                    <form #editForm="ngForm">
+                        <div class="form-group">
+                            <label for="billName">Bill Name</label>
+                            <input type="text" ngModel="{{editBill?.billName}}" name="billName" class="form-control" id="name" aria-describedby="" placeholder="Bill Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="billDesc">Bill Desc</label>
+                            <input type="text" ngModel="{{editBill?.billDesc}}" name="billDesc" class="form-control" id="desc" aria-describedby="" placeholder="Bill Desc" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="billDesc">Amount</label>
+                            <input type="text" ngModel="{{editBill?.amount}}" name="amount" class="form-control" id="amount" aria-describedby="" placeholder="e.g. 1000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dueDate">Due Date</label>
+                            <input type="text" ngModel="{{editBill?.dueDate}}" name="dueDate" class="form-control" id="dueDate" aria-describedby="" placeholder="dd/mm/yyyy" required>
+                        </div>
+                    
+                        <label for="billType">Paid</label>
+                        <select id="type" ngModel="{{editBill?.billType}}" name="paid" class="form-control" value="{{editBill?.paid}}">
+                            <option value=true>Paid</option>
+                            <option value=false>Due</option>
+                        </select>
+
+                        <label for="billType">Bill Type</label>
+                        <select id="type" ngModel="{{editBill?.billType}}" name="billType" class="form-control" value="{{editBill?.billType}}">
+                            <option value="electricity">Electricity</option>
+                            <option value="water">Water</option>
+                            <option value="gas">Cylinder</option>
+                            <option value="other">Others</option>
+                        </select>
+
+                        <input ngModel="{{editBill?.id}}" type="hidden" name="id" id="id" placeholder="Email"/>
+                        <input ngModel="{{editBill?.billCode}}" type="hidden" name="billCode" id="billCode" placeholder="Email"/>
+                        <br/>
+                        <div class="modal-footer">
+                            <button type="button" id="add-bill-form" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                            <button (click)="onUpdateBill(editForm.value)" type="submit" class="btn btn-primary" data-dismiss="modal" >Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+        
+        <!-- Delete bill modal -->
+        <div class="modal fade" id="deleteBillModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Bill</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete Bill - {{deleteBill?.billName}}?</p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button (click)="onDeleteBill(deleteBill?.id)"  class="btn btn-danger" data-dismiss="modal">Yes, delete</button>
+                </div>
+            </div>
+            </div>
+        </div>  
+
+    </div>    
 </div>
+
+
+
+
