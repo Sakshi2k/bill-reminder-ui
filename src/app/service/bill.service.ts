@@ -22,15 +22,10 @@ export class BillService {
   }
   
   public addBill(bill : Bill): Observable<Bill> {
-    console.log("--------***------")
-    console.log("adding a new bill");
-    console.log("Bill : " + bill);
     return this.http.post<Bill>(`${this.apiServerUrl}/bill/add`, bill);
   }
   
   public updateBill(bill : Bill): Observable<Bill> {
-    console.log("adding a new bill");
-    console.log("Bill : " + bill);
     return this.http.put<Bill>(`${this.apiServerUrl}/bill/update`, bill);
   }
 

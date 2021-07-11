@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BillsComponent } from './components/bills/bills.component';
 import { BillListComponent } from './components/bills/bill-list/bill-list.component';
-import { BillItemComponent } from './components/bills/bill-list/bill-item/bill-item.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BillIconComponent } from './components/bills/bill-list/bill-icon/bill-icon.component';
@@ -17,9 +16,7 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     BillsComponent,
     BillListComponent,
-    BillItemComponent,
-    BillIconComponent,
-    
+    BillIconComponent
   ],
   imports: [
     BrowserModule,
