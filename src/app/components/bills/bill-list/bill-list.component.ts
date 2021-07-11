@@ -13,9 +13,12 @@ import { NgForm } from '@angular/forms';
 export class BillListComponent implements OnInit {
 
   public bills: Bill[] =[];
-  public displayBills: Bill[] =[];
+  public displayBills: any =[];
+
   public editBill?: Bill;
   public deleteBill?: Bill;
+
+  public searchName: String="";
 
   constructor(private billService : BillService) {}
 
@@ -31,23 +34,21 @@ export class BillListComponent implements OnInit {
      (res: Bill[]) => {
        this.bills = res;
        this.displayBills = res;
-       console.log(res)
+       this.editBill = this.bills[0];
+       this.deleteBill = this.bills[0];
       },
       (err: HttpErrorResponse) => {
-        alert(`Error occurred : ${err.message}`);
         console.error(`Error occurred : ${err.message}`);
       }
       ) 
       console.info("Displaying All Bills");
-      this.editBill = this.bills[0];
-      this.deleteBill = this.bills[0];
+
   }
 
   /*
   * @desc Function to get bills with payment due
   */
   public async displayAllBills() {
-    // this.displayBills = this.bills;
     this.displayBills = this.bills.filter( bill => {
       return bill;
    });
@@ -67,7 +68,6 @@ export class BillListComponent implements OnInit {
   * @desc Function to get bills with past payment due
   */
   public async filterBillsByPastDue() {
-    // let newBillsList: Bill[]= [];
 
     this.displayBills = this.bills.filter( bill => {
       return bill.pastDue === true;
@@ -85,39 +85,43 @@ export class BillListComponent implements OnInit {
    console.info("Displaying Bills Paid");
   }
 
+  /*
+  * @desc Function to add new bill
+  */
   public onAddBill(addForm: NgForm) : void {
     addForm.value.paid = Boolean(addForm.value.paid);
     addForm.value.amount = Number(addForm.value.amount);
-
-    console.log("****")
-    console.log("addForm.value.paid")
-    console.log(addForm.value.paid)
-    console.log(typeof(addForm.value.paid))
 
     document.getElementById('add-bill-form-close')?.click();
     this.billService.addBill(addForm.value).subscribe(
       (response : Bill) => {
         this.getBills();
-        console.log(response);
+        // console.log(response);
       } , (err) => {
-        alert("Error occured while adding Bill : " + err.message);
+        console.error("Error occured while adding Bill : " + err.message);
       }
     );
     addForm.reset();
   }
 
+  /*
+  * @desc Function to update exisiting bill
+  */
   public onUpdateBill(bill: Bill) : void {
     
     this.billService.updateBill(bill).subscribe(
       (response : Bill) => {
         this.getBills();
-        console.log(response);
+        // console.log(response);
       } , (err) => {
-        alert("Error occured while updating Bill : " + err.message);
+        console.error("Error occured while updating Bill : " + err.message);
       }
     );
   }
 
+  /*
+  * @desc Function to delete bill
+  */
   public onDeleteBill(billId?: number) : void {
     this.billService.deleteBill(billId || 0).subscribe(
       (response : void) => {
@@ -129,6 +133,28 @@ export class BillListComponent implements OnInit {
     
   }
 
+  /*
+  * @desc Function to search bills by bill name,
+  * using elastic search in backend for this call.
+  */
+  public searchBills() : void {
+    console.log("Searching Bill name : " + this.searchName);
+    this.billService.searchBillByName(this.searchName).subscribe(
+     (res :any) => {
+      this.displayBills = [];
+      res.map((element: any, index: string | number) => {
+        this.displayBills.push(element.sourceAsMap)
+      });
+     },
+     (err: HttpErrorResponse) => {
+       console.error(`Error occurred while searching by name: : ${err.message}`);
+     }) ;
+     this.searchName = "";
+  }
+
+  /*
+  * @desc Function to open models for edit, update and delete
+  */
   public openModal(bill?:Bill, action?: string) : void {
     const modalsDiv = document.getElementById("modalsDiv");
     const button = document.createElement('button');
@@ -152,9 +178,4 @@ export class BillListComponent implements OnInit {
     modalsDiv?.appendChild(button);
     button.click();
   }
-
 }
-function tyepeof(amount: any): any {
-  throw new Error('Function not implemented.');
-}
-

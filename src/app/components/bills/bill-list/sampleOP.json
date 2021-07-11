@@ -1,0 +1,72 @@
+[
+    {
+        "score": 1.2943789,
+        "id": "0a7c01a2-4467-41ea-9e96-c43af97eddf4",
+        "type": "_doc",
+        "nestedIdentity": null,
+        "version": -1,
+        "seqNo": -2,
+        "primaryTerm": 0,
+        "highlightFields": {},
+        "sortValues": [],
+        "matchedQueries": [],
+        "explanation": null,
+        "shard": null,
+        "index": "bill",
+        "clusterAlias": null,
+        "sourceAsMap": {
+            "billName": "Electricity",
+            "amount": 1234,
+            "billDesc": "March bill",
+            "dueDate": "30/03/2021",
+            "billType": "electricity",
+            "paid": false,
+            "pastDue": true,
+            "billCode": "0a7c01a2-4467-41ea-9e96-c43af97eddf4",
+            "id": 135
+        },
+        "innerHits": null,
+        "fields": {},
+        "sourceRef": {
+            "fragment": true
+        },
+        "rawSortValues": [],
+        "sourceAsString": "{\"id\":135,\"billName\":\"Electricity\",\"billDesc\":\"March bill\",\"amount\":1234,\"paid\":false,\"pastDue\":true,\"dueDate\":\"30/03/2021\",\"billCode\":\"0a7c01a2-4467-41ea-9e96-c43af97eddf4\",\"billType\":\"electricity\"}",
+        "fragment": false
+    },
+    {
+        "score": 1.2943789,
+        "id": "9d97f487-ef28-4453-9fc1-8efa1a068492",
+        "type": "_doc",
+        "nestedIdentity": null,
+        "version": -1,
+        "seqNo": -2,
+        "primaryTerm": 0,
+        "highlightFields": {},
+        "sortValues": [],
+        "matchedQueries": [],
+        "explanation": null,
+        "shard": null,
+        "index": "bill",
+        "clusterAlias": null,
+        "sourceAsMap": {
+            "billName": "Electricity",
+            "amount": 1100,
+            "billDesc": "July bill",
+            "dueDate": "11/07/2000",
+            "billType": "electricity",
+            "paid": true,
+            "pastDue": false,
+            "billCode": "9d97f487-ef28-4453-9fc1-8efa1a068492",
+            "id": 138
+        },
+        "innerHits": null,
+        "fields": {},
+        "sourceRef": {
+            "fragment": true
+        },
+        "rawSortValues": [],
+        "sourceAsString": "{\"id\":138,\"billName\":\"Electricity\",\"billDesc\":\"July bill\",\"amount\":1100,\"paid\":true,\"pastDue\":false,\"dueDate\":\"11/07/2000\",\"billCode\":\"9d97f487-ef28-4453-9fc1-8efa1a068492\",\"billType\":\"electricity\"}",
+        "fragment": false
+    }
+]

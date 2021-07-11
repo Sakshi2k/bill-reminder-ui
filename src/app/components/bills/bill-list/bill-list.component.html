@@ -1,7 +1,7 @@
 <div class="row">
     <!-- Notification for no bills -->
     <div *ngIf="displayBills?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-warning" role="alert">
         <h4 class="alert-heading">No Bills are found!</h4>
         <p>Go ahead and create a new one.</p>
         </div>
@@ -17,11 +17,11 @@
     </div>
 
     <div class="col-lg-5">
-        <form class="form-inline">
+        <div class="form-inline">
             <button class="btn btn-primary" (click)="openModal(undefined, 'add')">New Bill</button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            <input class="form-control mr-sm-2" [(ngModel)]="searchName" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" (click)="searchBills()" type="submit">Search</button>
+        </div>
     </div>
 </div>
 <br/>
@@ -36,8 +36,8 @@
                 <th>Bill Desciption</th>
                 <th>Due Date</th>
                 <th>Paid</th>
-                <th>Bill Code</th>
                 <th>Past Due</th>
+                <th>Bill Code</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -49,23 +49,23 @@
             </app-bill-item> -->
             
             <tr *ngFor="let billItem of displayBills">
-                <td><app-bill-icon [imgType]="billItem.billType"></app-bill-icon></td>
-                <td>{{billItem.billName}}</td>
-                <td>{{billItem.amount}}</td>
-                <td>{{billItem.billDesc}}</td>
-                <td>{{billItem.dueDate}}</td>
+                <td><app-bill-icon [imgType]="billItem?.billType"></app-bill-icon></td>
+                <td>{{billItem?.billName}}</td>
+                <td>{{billItem?.amount}}</td>
+                <td>{{billItem?.billDesc}}</td>
+                <td>{{billItem?.dueDate}}</td>
 
-                <td *ngIf="billItem.paid; else elseBlock1">
+                <td *ngIf="billItem?.paid; else elseBlock1">
                     <img class="small-icon" src="assets/images/tick.png">
                 </td>
                     <ng-template #elseBlock1> 
                         <td><img class="small-icon" src="assets/images/cross.png"></td>
                     </ng-template>
-                
-                <td>{{billItem.billCode.substring(0,9)}}..</td>
 
-                <td *ngIf="billItem.pastDue; else elseBlock2" class="text-red">!</td>
-                    <ng-template #elseBlock2><td></td></ng-template>
+                <td *ngIf="billItem?.pastDue; else elseBlock2" class="text-red text-center">!</td>
+                    <ng-template #elseBlock2><td class="text-center">No</td></ng-template>
+
+                <td>{{billItem?.billCode?.substring(0,5)}}..</td>   
                 <td><a><img class="small-icon" (click)="openModal(billItem, 'edit')" src="assets/images/edit.png"></a></td>
                 <td><a><img class="small-icon" (click)="openModal(billItem, 'delete')" src="assets/images/delete.png"></a></td>
             </tr>
@@ -106,7 +106,7 @@
                                 <input type="text" ngModel name="dueDate" class="form-control" id="dueDate" placeholder="dd/mm/yyyy" required>
                             </div>
                             <label for="billType">Bill Type</label>
-                            <select id="type" ngModel name="billType" class="form-control" required>
+                            <select id="billType" ngModel name="billType" class="form-control" required>
                                 <option value="electricity">Electricity</option>
                                 <option value="water">Water</option>
                                 <option value="gas">Cylinder</option>
@@ -114,13 +114,13 @@
                             </select>
                             
                             <label for="paid">Paid</label>
-                            <select id="type" ngModel name="paid" class="form-control" required value="false">
-                                <option value=true>Paid</option>
-                                <option value=false>Due</option>
+                            <select id="paid" ngModel name="paid" class="form-control" required value>
+                                <option [ngValue]="true">Paid</option>
+                                <option [ngValue]="false">Due</option>
                             </select>
 
-                            <input type="hidden" name="id" id="id" placeholder="Email"/>
-                            <input type="hidden" name="userCode" id="userCode" placeholder="Email"/>
+                            <input type="hidden" name="id" id="id"/>
+                            <input type="hidden" name="userCode" id="userCode"/>
                             <br/>
                             <div class="modal-footer">
                                 <button type="button" id="add-bill-form-close" data-dismiss="modal" class="btn btn-secondary">Close</button>
@@ -164,21 +164,21 @@
                         </div>
                     
                         <label for="billType">Paid</label>
-                        <select id="type" ngModel="{{editBill?.billType}}" name="paid" class="form-control" value="{{editBill?.paid}}">
+                        <select id="type" ngModel="{{editBill?.billType}}" name="paid" class="form-control" value="{{editBill?.paid}}" required>
                             <option value=true>Paid</option>
                             <option value=false>Due</option>
                         </select>
 
                         <label for="billType">Bill Type</label>
-                        <select id="type" ngModel="{{editBill?.billType}}" name="billType" class="form-control" value="{{editBill?.billType}}">
+                        <select id="type" ngModel="{{editBill?.billType}}" name="billType" class="form-control" value="{{editBill?.billType}}" required>
                             <option value="electricity">Electricity</option>
                             <option value="water">Water</option>
                             <option value="gas">Cylinder</option>
                             <option value="other">Others</option>
                         </select>
 
-                        <input ngModel="{{editBill?.id}}" type="hidden" name="id" id="id" placeholder="Email"/>
-                        <input ngModel="{{editBill?.billCode}}" type="hidden" name="billCode" id="billCode" placeholder="Email"/>
+                        <input ngModel="{{editBill?.id}}" type="hidden" name="id" id="id"/>
+                        <input ngModel="{{editBill?.billCode}}" type="hidden" name="billCode" id="billCode"/>
                         <br/>
                         <div class="modal-footer">
                             <button type="button" id="add-bill-form" data-dismiss="modal" class="btn btn-secondary">Close</button>

@@ -37,4 +37,8 @@ export class BillService {
   public deleteBill(billId : number): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/bill/delete/${billId}`);
   }
+
+  public searchBillByName(name : String) : Observable<Bill[]> {
+    return this.http.get<Bill[]>(`${this.apiServerUrl}/bill/search/${name}`);
+  }
 }
