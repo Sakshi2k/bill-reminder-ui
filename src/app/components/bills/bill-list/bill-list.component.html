@@ -13,6 +13,17 @@
             <li role="presentation"><a class="btn btn-border" (click)="filterBillsByPaid()">Paid</a></li>
             <li role="presentation"><a class="btn btn-border" (click)="filterBillsByPastDue()">Past Due</a></li>
             <li role="presentation"><a class="btn btn-border" (click)="filterBillsByDue()">All Due</a></li>
+            <div class="dropdown">
+                <button class="btn btn-border dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Category
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" (click)="filterBillsByType('electricity')"><img class="small-icon" src="assets/images/electricity.png">Electricity</a>
+                  <a class="dropdown-item" (click)="filterBillsByType('water')"><img class="small-icon" src="assets/images/water.png">Water</a>
+                  <a class="dropdown-item" (click)="filterBillsByType('gas')"><img class="small-icon" src="assets/images/gas.png">Gas Cylinder</a>
+                  <a class="dropdown-item" (click)="filterBillsByType('other')"><img class="small-icon" src="assets/images/other.png">Others</a>
+                </div>
+              </div>
         </ul>
     </div>
 

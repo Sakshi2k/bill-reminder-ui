@@ -85,6 +85,17 @@ export class BillListComponent implements OnInit {
    console.info("Displaying Bills Paid");
   }
 
+    
+  /*
+  * @desc Function to get bills paid
+  */
+  public filterBillsByType(type: String) {
+    this.displayBills = this.bills.filter( bill => {
+      return bill.billType === type;
+   });
+   console.info("Displaying Bills Paid");
+  }
+
   /*
   * @desc Function to add new bill
   */
