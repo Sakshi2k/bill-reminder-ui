@@ -1,4 +1,4 @@
-# BillReminderUi
+# BillReminderUI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.4.
  - Backend Repository : https://github.com/Sakshi2k/bill-reminder-backend
